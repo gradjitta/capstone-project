@@ -26,6 +26,7 @@ Steps in Completing Your Project
   - [x] Configure a deployment pipeline.
   - [x] Include your Dockerfile/source code in the Git repository.
   - [x] Include with your Linting step both a failed Linting screenshot and a successful Linting screenshot to show the Linter working properly.
+  ![UI](./assets/jenkins_failedlint.png "Lint Fail")
   
 - Step 5: Test your pipeline
   - [x] Perform builds on your pipeline.
