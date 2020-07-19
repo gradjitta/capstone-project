@@ -1,0 +1,11 @@
+[
+	{
+		"ParameterKey": "EnvironmentName",
+		"ParameterValue": "Capstone"
+    },
+    {
+        "ParameterKey":"KeyPairName",
+        "ParameterValue":"eks-capstone"
+    }
+
+]

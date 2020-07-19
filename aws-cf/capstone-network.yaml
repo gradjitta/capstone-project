@@ -1,0 +1,249 @@
+Description: >
+    Capstone Project Aditya
+
+
+Parameters:
+    EnvironmentName:
+        Description: An environment name that will be prefixed to resource names
+        Type: String
+
+    VpcBlock:
+        Type: String
+        Default: 192.168.0.0/16
+        Description: The CIDR range for the VPC. This should be a valid private (RFC 1918) CIDR range.
+
+    Subnet01Block:
+        Type: String
+        Default: 192.168.64.0/18
+        Description: CidrBlock for subnet 01 within the VPC
+
+    Subnet02Block:
+        Type: String
+        Default: 192.168.128.0/18
+        Description: CidrBlock for subnet 02 within the VPC
+
+    Subnet03Block:
+        Type: String
+        Default: 192.168.192.0/18
+        Description: CidrBlock for subnet 03 within the VPC. This is used only if the region has more than 2 AZs.
+
+Conditions:
+    Has2Azs:
+        Fn::Or:
+            - Fn::Equals:
+                - {Ref: 'AWS::Region'}
+                - eu-west-1
+            - Fn::Equals:
+                - {Ref: 'AWS::Region'}
+                - eu-west-2
+    HasMoreThan2Azs:
+        Fn::Not:
+            - Condition: Has2Azs
+
+
+Resources:
+    VPC:
+        Type: AWS::EC2::VPC
+        Properties:
+            CidrBlock:  !Ref VpcBlock
+            EnableDnsSupport: true
+            EnableDnsHostnames: true
+            Tags:
+                - Key: Name
+                  Value: !Sub '${EnvironmentName}-VPC'
+
+    InternetGateway:
+        Type: "AWS::EC2::InternetGateway"
+
+    VPCGatewayAttachment:
+        Type: "AWS::EC2::VPCGatewayAttachment"
+        Properties:
+            InternetGatewayId: !Ref InternetGateway
+            VpcId: !Ref VPC
+
+    RouteTable:
+        Type: AWS::EC2::RouteTable
+        Properties:
+            VpcId: !Ref VPC
+            Tags:
+                - Key: Name
+                  Value: Public Subnets
+                - Key: Network
+                  Value: Public
+    Route:
+        DependsOn: VPCGatewayAttachment
+        Type: AWS::EC2::Route
+        Properties:
+            RouteTableId: !Ref RouteTable
+            DestinationCidrBlock: 0.0.0.0/0
+            GatewayId: !Ref InternetGateway
+
+    DefaultSecurityGroup:
+        Type: AWS::EC2::SecurityGroup
+        Properties:
+            VpcId: !Ref VPC
+            GroupDescription: Default security group for EKS.
+            SecurityGroupIngress:
+            - IpProtocol: tcp
+              FromPort: 1025
+              ToPort: 65535
+              CidrIp: 0.0.0.0/0
+            - IpProtocol: tcp
+              FromPort: 443
+              ToPort: 443
+              CidrIp: 0.0.0.0/0
+            SecurityGroupEgress:
+            - IpProtocol: tcp
+              FromPort: 1025
+              ToPort: 65535
+              CidrIp: 0.0.0.0/0
+
+    Subnet01:
+        Type: AWS::EC2::Subnet
+        Metadata:
+            Comment: Subnet 01
+        Properties:
+            MapPublicIpOnLaunch: true
+            AvailabilityZone:
+                Fn::Select:
+                - '0'
+                - Fn::GetAZs:
+                    Ref: AWS::Region
+            CidrBlock:
+                Ref: Subnet01Block
+            VpcId:
+                Ref: VPC
+            Tags:
+                - Key: Name
+                  Value: !Sub "${EnvironmentName}-Subnet01"
+                - Key: kubernetes.io/role/elb
+                  Value: 1
+
+    Subnet02:
+        Type: AWS::EC2::Subnet
+        Metadata:
+            Comment: Subnet 02
+        Properties:
+            MapPublicIpOnLaunch: true
+            AvailabilityZone:
+                Fn::Select:
+                - '1'
+                - Fn::GetAZs:
+                    Ref: AWS::Region
+            CidrBlock:
+                Ref: Subnet02Block
+            VpcId:
+                Ref: VPC
+            Tags:
+                - Key: Name
+                  Value: !Sub "${EnvironmentName}-Subnet01"
+                - Key: kubernetes.io/role/elb
+                  Value: 1
+
+    Subnet03:
+        Type: AWS::EC2::Subnet
+        Metadata:
+            Comment: Subnet 03
+        Properties:
+            MapPublicIpOnLaunch: true
+            AvailabilityZone:
+                Fn::Select:
+                - '2'
+                - Fn::GetAZs:
+                    Ref: AWS::Region
+            CidrBlock:
+                Ref: Subnet03Block
+            VpcId:
+                Ref: VPC
+            Tags:
+                - Key: Name
+                  Value: !Sub "${EnvironmentName}-Subnet01"
+                - Key: kubernetes.io/role/elb
+                  Value: 1
+
+    Subnet01RouteTableAssociation:
+        Type: AWS::EC2::SubnetRouteTableAssociation
+        Properties:
+            SubnetId: !Ref Subnet01
+            RouteTableId: !Ref RouteTable
+
+    Subnet02RouteTableAssociation:
+        Type: AWS::EC2::SubnetRouteTableAssociation
+        Properties:
+            SubnetId: !Ref Subnet02
+            RouteTableId: !Ref RouteTable
+
+    Subnet03RouteTableAssociation:
+        Condition: HasMoreThan2Azs
+        Type: AWS::EC2::SubnetRouteTableAssociation
+        Properties:
+            SubnetId: !Ref Subnet03
+            RouteTableId: !Ref RouteTable
+
+    ControlPlaneSecurityGroup:
+        Type: AWS::EC2::SecurityGroup
+        Properties:
+            VpcId: !Ref VPC
+            GroupDescription: Default security group for EKS.
+            SecurityGroupIngress:
+            - IpProtocol: tcp
+              FromPort: 1025
+              ToPort: 65535
+              CidrIp: 0.0.0.0/0
+            - IpProtocol: tcp
+              FromPort: 443
+              ToPort: 443
+              CidrIp: 0.0.0.0/0
+            SecurityGroupEgress:
+            - IpProtocol: tcp
+              FromPort: 1025
+              ToPort: 65535
+              CidrIp: 0.0.0.0/0
+
+Outputs:
+
+    SubnetIds:
+        Description: All subnets in the VPC
+        Value:
+            Fn::If:
+            - HasMoreThan2Azs
+            - !Join [ ",", [ !Ref Subnet01, !Ref Subnet02, !Ref Subnet03 ] ]
+            - !Join [ ",", [ !Ref Subnet01, !Ref Subnet02 ] ]
+        Export:
+            Name: !Sub ${EnvironmentName}-PUB-NETS
+
+    SecurityGroup:
+        Description: Cluster security group.
+        Value: !Ref ControlPlaneSecurityGroup
+        Export:
+            Name: !Sub ${EnvironmentName}-SCG
+
+    VpcId:
+        Description: The VPC Id
+        Value: !Ref VPC
+        Export:
+            Name: !Sub ${EnvironmentName}-VPCID
+
+    VPCPublicRouteTable:
+        Description: Public Routing
+        Value: !Ref RouteTable
+        Export:
+            Name: !Sub ${EnvironmentName}-PUB-RT
+
+    PublicSubnet1:
+        Description: A reference to the public subnet in the 1st Availability Zone
+        Value: !Ref Subnet01
+        Export:
+            Name: !Sub ${EnvironmentName}-PUB1-SN
+
+    PublicSubnet2:
+        Description: A reference to the public subnet in the 2nd Availability Zone
+        Value: !Ref Subnet02
+        Export:
+            Name: !Sub ${EnvironmentName}-PUB2-SN
+
+    PublicSubnet3:
+        Description: A reference to the public subnet in the 2nd Availability Zone
+        Value: !Ref Subnet03
+        Export:
+            Name: !Sub ${EnvironmentName}-PUB3-SN
