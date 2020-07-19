@@ -38,10 +38,5 @@ pipeline {
                       sh 'docker push gradjitta/streamlit-app:roll'
                }
          }
-         stage('Scan the pushed Docker image') {
-              steps{
-                   aquaMicroscanner imageName: 'gradjitta/streamlit-app:roll', notCompliesCmd: 'exit 4', onDisallowed: 'fail', outputFormat: 'html'
-              }
-         }
      }
  }
