@@ -38,13 +38,13 @@ pipeline {
                       sh 'docker push gradjitta/streamlit-app:roll'
                }
          }
-         stage('Deploying K8s') {
+         stage('Deploying') {
+              echo 'Deploying to AWS...'
               dir ('./') {
-                  withAWS(region:'eu-west-1',credentials:'aws-static') {
+                   withAWS(credentials: 'aws-credentials', region: 'eu-central-1') {
                       sh "aws eks --region eu-west-1 update-kubeconfig --name CapstoneEKS-yG6S3kgKWfas"
-                      sh "kubectl version"
-                  }
+                   }
               }
-         }
+          }
      }
  }
