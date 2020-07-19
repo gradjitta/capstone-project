@@ -13,6 +13,7 @@ pipeline {
          }
           stage('Lint Dockerfile') {
                steps {
+                  sh 'cat Dockerfile'
                   sh 'docker run --rm -i hadolint/hadolint < Dockerfile'
                }
           }
