@@ -39,7 +39,7 @@ pipeline {
                }
          }
          stage('Deploying K8s') {
-              steps{
+              dir ('./') {
                   withAWS(region:'eu-west-1',credentials:'aws-static') {
                       sh "aws eks --region eu-west-1 update-kubeconfig --name CapstoneEKS-yG6S3kgKWfas"
                       sh "kubectl version"
