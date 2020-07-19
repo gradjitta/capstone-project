@@ -8,7 +8,7 @@ pipeline {
          }
          stage('Build Docker Image') {
               steps {
-                  sh 'sudo docker build . -t streamlit-app'
+                  sh 'docker build . -t streamlit-app'
               }
          }
          stage('Docker login') {
