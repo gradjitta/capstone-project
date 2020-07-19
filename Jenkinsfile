@@ -13,7 +13,7 @@ pipeline {
          }
          stage('Docker login') {
               steps {
-                  sh 'docker login -u gradjitta -p $DOCKER_PASS'
+                  sh 'docker login'
                }
          }
          stage('Push Docker Image') {
