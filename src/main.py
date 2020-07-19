@@ -49,7 +49,7 @@ If convicted, Barrientos faces up to four years in prison.  Her next court appea
 #model, tokenizer = load_all()
 
 
-st.title("Test App Rolling Update Test")
+st.title("Test App Rolling Update")
 #st.write('torch version  is', torch.__version__)
 
 
