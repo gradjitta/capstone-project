@@ -1,5 +1,10 @@
 pipeline {
      agent any
+     
+     environment {
+          dh_pass = credentials('DOCKER_PASS')
+     }
+     
      stages {
          stage('Build') {
               steps {
@@ -13,7 +18,7 @@ pipeline {
          }
          stage('Docker login') {
               steps {
-                  sh 'docker login'
+                  sh 'docker login -u gradjitta -p $dh_pass'
                }
          }
          stage('Push Docker Image') {
