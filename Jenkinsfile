@@ -19,7 +19,7 @@ pipeline {
          stage('Push Docker Image') {
               steps {
                       sh "docker tag streamlit-app gradjitta/streamlit-app"
-                      sh 'docker push gradjitta/capstone-project-cloud-devops'
+                      sh 'docker push gradjitta/streamlit-app'
                   }
               }
          }
