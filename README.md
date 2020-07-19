@@ -30,4 +30,15 @@ Steps in Completing Your Project
 - Step 5: Test your pipeline
   - [x] Perform builds on your pipeline.
   - [x] Verify that your pipeline works as you designed it.
-  - [x] Take a screenshot of the Jenkins pipeline showing deployment and a screenshot of your AWS EC2 page showing the newly modified (for rolling) instances. 
+  - [x] Take a screenshot of the Jenkins pipeline showing deployment and a screenshot of your AWS EC2 page showing the newly modified (for rolling) instances.
+  ### Before Rollout
+  ![UI](./assets/main_app.png "Before Rollout")
+  To rollout to a new commit the following cmd was used:
+  
+> `kubectl set image deployments/streamlit-app streamlit-app=gradjitta/streamlit-app:roll`
+
+It results in the following CMD line outputs
+
+![CMD](./assets/rolledout.png "cmd to rollout")
+  ### After Rollout
+  ![UI](./assets/UIRolledOut.png "Adter Rollout")
