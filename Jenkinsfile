@@ -43,6 +43,7 @@ pipeline {
                    dir ('./') {
                       withAWS(credentials: 'aws-static', region: 'eu-west-1') {
                            sh "aws eks --region eu-west-1 update-kubeconfig --name CapstoneEKS-yG6S3kgKWfas"
+                           sh "kubectl apply -f aws-cf/aws-auth-cm.yaml"
                       }
                    }
               }
