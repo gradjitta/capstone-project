@@ -17,6 +17,11 @@ pipeline {
                   sh 'docker run --rm -i hadolint/hadolint < Dockerfile'
                }
           }
+          stage('Lint Python Code') {
+               steps {
+                  sh 'pylint --disable=R,C,W1203,W1202,E0401,W0401,W0613,W0621,W0611,E0602  **/**.py'
+               }
+          }
          stage('Build Docker Image') {
               steps {
                   sh 'docker build . -t streamlit-app:roll'
