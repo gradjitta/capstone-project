@@ -11,6 +11,11 @@ pipeline {
                   sh 'echo Building...'
               }
          }
+          stage('Lint Dockerfile') {
+               steps {
+                  sh 'docker run --rm -i hadolint/hadolint < Dockerfile'
+               }
+          }
          stage('Build Docker Image') {
               steps {
                   sh 'docker build . -t streamlit-app:roll'
