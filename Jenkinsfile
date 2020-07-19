@@ -13,7 +13,7 @@ pipeline {
          }
          stage('Build Docker Image') {
               steps {
-                  sh 'docker build . -t streamlit-app'
+                  sh 'docker build . -t streamlit-app:roll'
               }
          }
          stage('Docker login') {
@@ -23,8 +23,8 @@ pipeline {
          }
          stage('Push Docker Image') {
               steps {
-                      sh "docker tag streamlit-app gradjitta/streamlit-app:prod"
-                      sh 'docker push gradjitta/streamlit-app:prod'
+                      sh "docker tag streamlit-app:roll gradjitta/streamlit-app:roll"
+                      sh 'docker push gradjitta/streamlit-app:roll'
                   }
               }
          }
