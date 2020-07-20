@@ -1,4 +1,4 @@
-# capstone-project
+# Udacity DevOps Capstone Project
 
 ### Thanks for all the community help and resources shared in the forums
 
@@ -16,15 +16,15 @@ The following resources I used to finish the capstone project
 ## DevOps
 
 
-Steps in Completing Your Project
+Steps taken in completing the Capstone project
 
-- Step 1: Propose and Scope the Project
+- Step 1: Scope of the project
 
-  - The project deploys an app to the AWS Kubernetes Cluster 
-  - Used Jenkins for the CICD pipeline
+  - The project deploys an app to the AWS Kubernetes Cluster (done using `awscli` and `kubectl`)
+  - Used Jenkins for the CICD pipeline 
   - Deployment type Chosen: Rolling deployment
-  - Used Docker Hub for pulling the images
-  - Build a minimal streamlit app for Text processing
+  - Used **Docker Hub** for pulling the images
+  - Built a minimal streamlit machine learning app for Text processing
 
 - Step 2: Use Jenkins, and implement blue/green or rolling deployment.
   - [x] Create your Jenkins master box with either Jenkins and install the plugins you will need.
@@ -32,7 +32,15 @@ Steps in Completing Your Project
   
 - Step 3: Pick AWS Kubernetes as a Service, or build your own Kubernetes cluster.
   - [x] Used CloudFormation to build the infrastructure
+        - Used 3 public subnets to deploy the nodes. All the CloudFormation files are present in the `aws-cf/` folder
   - [x] The Kubernetes cluster initialization with Cloudformation
+  
+  `./create.sh capstone-network-stack capstone-network.yaml capstone-network-params.json`
+  ![Stack1](./assets/network_stack.png "Network")
+  `./create.sh capstone-cluster eks-cluster.yaml eks-cluster-params.json`
+  ![Stack2](./assets/cluster_stack.png "Cluster")
+  `./create.sh capstone-eks-nodegroup eks-nodegroup.yaml eks-nodegroup-params.json`
+  ![Stack3](./assets/nodegroup_stack.png "Nodegroup")
 
 - Step 4: Build your pipeline
   - [x] Construct your pipeline in your GitHub repository.
