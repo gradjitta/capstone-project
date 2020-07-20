@@ -38,12 +38,20 @@ pipeline {
                       sh 'docker push gradjitta/streamlit-app:roll'
                }
          }
-         stage('Deploying k8s') {
+         stage('Configuring k8s') {
               steps {
                    dir ('./') {
                       withAWS(credentials: 'aws-static', region: 'eu-west-1') {
                            sh "aws eks --region eu-west-1 update-kubeconfig --name CapstoneEKS-yG6S3kgKWfas"
                            sh "kubectl apply -f aws-cf/aws-auth-cm.yaml"
+                      }
+                   }
+              }
+          }
+          stage('Deploying app to k8 cluster') {
+              steps {
+                   dir ('./') {
+                      withAWS(credentials: 'aws-static', region: 'eu-west-1') {
                            sh "kubectl apply -f aws-cf/streamlit-deploy.yaml"
                       }
                    }
