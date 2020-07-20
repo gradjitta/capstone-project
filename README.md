@@ -42,7 +42,6 @@ Steps taken in completing the Capstone project
   `./create.sh capstone-cluster eks-cluster.yaml eks-cluster-params.json`
   ![Stack2](./assets/cluster_stack.png "Cluster")
   `./create.sh capstone-eks-nodegroup eks-nodegroup.yaml eks-nodegroup-params.json`
-  ![Stack3](./assets/nodegroup_stack.png "Nodegroup")
 
 - Step 4: Build your pipeline
   - [x] Construct your pipeline in your GitHub repository.
