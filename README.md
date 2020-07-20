@@ -70,7 +70,7 @@ Steps taken in completing the Capstone project
   ![UI](./assets/original_ui.png "Before Rollout")
   To rollout to a new commit the following cmd was used:
   
-> `kubectl set image deployments/streamlit-app streamlit-app=gradjitta/streamlit-app:roll`
+> `kubectl set image deployments/streamlit-app streamlit-app=gradjitta/streamlit-app:$IMAGE_TAG`
 
 It results in the following CMD line outputs
 
