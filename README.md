@@ -40,7 +40,19 @@ Steps in Completing Your Project
   - [x] Configure a deployment pipeline.
   - [x] Include your Dockerfile/source code in the Git repository.
   - [x] Include with your Linting step both a failed Linting screenshot and a successful Linting screenshot to show the Linter working properly.
-  ![UI](./assets/jenkins_failedlint.png "Lint Fail")
+  
+  To test the linting step, the Dockerfile was ill-formated as shown:
+  
+  ![Lint](./assets/badDockefile.png "Poorly formatted Dockerfile")
+  
+  and it results in a filed pipeline in Jenkins as shown
+  
+  ![Fail](./assets/failed_lint.png "failed pipeline")
+   
+   Once we remove the unwanted text from the Dockerfile we get
+   
+   ![Pass](./assets/lint_pass.png "Passed pipeline pipeline")
+  
   
 - Step 5: Test your pipeline
   - [x] Perform builds on your pipeline.
