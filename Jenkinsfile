@@ -3,7 +3,7 @@ pipeline {
      
      environment {
           dh_pass = credentials('DOCKER_PASS')
-          IMAGE_TAG = "latest"
+          IMAGE_TAG = "rollout"
      }
      
      stages {
