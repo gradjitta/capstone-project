@@ -66,5 +66,10 @@ pipeline {
                    }
               }
           }
+          stage("Remove dangling images") {
+              steps{
+                    sh "docker system prune"
+              }
+        }
      }
  }
