@@ -82,6 +82,3 @@ It results in the following CMD line outputs
   ![UI](./assets/rolling_update_ui.png "After Rollout")
 ## Finally the output from Jenkins EC2 Instance
 ![summary](./assets/kubectl_output.png "Output of the `kubectl get all`")
-
-## Link to the app deployed to Kubernetes Cluster
-http://adf4f8c63657d454490861f61ba68aec-405964194.eu-west-1.elb.amazonaws.com/
