@@ -1,4 +1,18 @@
 # capstone-project
+
+### Thanks for all the community help and resources shared in the forums
+
+The following resources I used to finish the capstone project
+
+> https://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html
+
+> https://medium.com/@andresaaap/capstone-cloud-devops-nanodegree-4493ab439d48
+
+### And thanks for this student submission:
+
+> https://medium.com/@sabbirhossain_70520/capstone-project-cloud-devops-udacity-25d0fd72833e
+
+
 ## DevOps
 
 
