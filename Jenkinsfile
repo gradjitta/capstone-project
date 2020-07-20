@@ -25,7 +25,7 @@ pipeline {
           }
          stage('Build Docker Image') {
               steps {
-                  sh 'docker build . -t streamlit-app:roll'
+                  sh 'docker build . -t streamlit-app:$IMAGE_TAG'
               }
          }
          stage('Docker login') {
