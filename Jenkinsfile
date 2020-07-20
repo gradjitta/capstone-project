@@ -35,7 +35,7 @@ pipeline {
          }
          stage('Push Docker Image') {
               steps {
-                      sh "docker tag streamlit-app:roll gradjitta/streamlit-app:$IMAGE_TAG"
+                      sh "docker tag streamlit-app:$IMAGE_TAG gradjitta/streamlit-app:$IMAGE_TAG"
                       sh 'docker push gradjitta/streamlit-app:$IMAGE_TAG'
                }
          }
