@@ -72,6 +72,9 @@ Steps taken in completing the Capstone project
   
 > `kubectl set image deployments/streamlit-app streamlit-app=gradjitta/streamlit-app:$IMAGE_TAG`
 
+#### Rollout in action
+![Rollout](./assets/rolling_action.png "CMD line output for rollout strategy")
+
 It results in the following CMD line outputs
 
   ### After Rollout
