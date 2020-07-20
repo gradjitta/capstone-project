@@ -3,6 +3,7 @@ pipeline {
      
      environment {
           dh_pass = credentials('DOCKER_PASS')
+          IMAGE_TAG = "latest"
      }
      
      stages {
@@ -34,8 +35,8 @@ pipeline {
          }
          stage('Push Docker Image') {
               steps {
-                      sh "docker tag streamlit-app:roll gradjitta/streamlit-app:roll"
-                      sh 'docker push gradjitta/streamlit-app:roll'
+                      sh "docker tag streamlit-app:roll gradjitta/streamlit-app:$IMAGE_TAG"
+                      sh 'docker push gradjitta/streamlit-app:$IMAGE_TAG'
                }
          }
          stage('Configuring k8s') {
@@ -61,7 +62,7 @@ pipeline {
               steps {
                    dir ('./') {
                       withAWS(credentials: 'aws-static', region: 'eu-west-1') {
-                           sh "kubectl set image deployments/streamlit-app streamlit-app=gradjitta/streamlit-app:roll"
+                           sh "kubectl set image deployments/streamlit-app streamlit-app=gradjitta/streamlit-app:$IMAGE_TAG"
                       }
                    }
               }
