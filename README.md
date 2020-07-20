@@ -8,9 +8,11 @@ The following resources and Udacity resources were used to finish the capstone p
 
 > https://medium.com/@andresaaap/capstone-cloud-devops-nanodegree-4493ab439d48
 
-### And thanks for this student submission:
+### And thanks for these student projects as they helped me whenever I was stuck:
 
 > https://medium.com/@sabbirhossain_70520/capstone-project-cloud-devops-udacity-25d0fd72833e
+
+> https://github.com/Mirch/udacity-cloud-devops-capstone-project
 
 
 ## DevOps
