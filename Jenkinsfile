@@ -57,5 +57,14 @@ pipeline {
                    }
               }
           }
+          stage('Rollout update app to k8 cluster') {
+              steps {
+                   dir ('./') {
+                      withAWS(credentials: 'aws-static', region: 'eu-west-1') {
+                           sh "kubectl set image deployments/streamlit-app streamlit-app=gradjitta/streamlit-app:roll"
+                      }
+                   }
+              }
+          }
      }
  }
