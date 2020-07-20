@@ -2,7 +2,7 @@
 
 ### Thanks for all the community help and resources shared in the forums
 
-The following resources I used to finish the capstone project
+The following resources and Udacity resources were used to finish the capstone project
 
 > https://docs.aws.amazon.com/eks/latest/userguide/getting-started-console.html
 
