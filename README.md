@@ -1,4 +1,4 @@
-# Udacity DevOps Capstone Project
+# Capstone Project
 
 ### Thanks for all the community help and resources shared in the forums
 
